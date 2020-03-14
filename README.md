@@ -64,7 +64,7 @@ db.products.updateMany(
 ```
 8. updateOne(): finds the first document that matches the filter and applies the specified update modifications.\
 ```
-db.products.update(
+db.products.updateOne(
    { qty: { $lte: 10 } }, 
    { $set: { reorder: true } })
 ```
