@@ -1,0 +1,27 @@
+{
+  "name": "mongo-crud-operations",
+  "version": "1.0.0",
+  "description": "MongoDB CRUD Operations",
+  "main": "connect.js",
+  "dependencies": {
+    "mongodb": "^3.5.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Salmandabbakuti/mongo-crud.git"
+  },
+  "keywords": [
+    "mogodb",
+    "crud"
+  ],
+  "author": "Salman Dabbakuti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Salmandabbakuti/mongo-crud/issues"
+  },
+  "homepage": "https://github.com/Salmandabbakuti/mongo-crud#readme"
+}
