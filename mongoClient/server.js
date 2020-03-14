@@ -79,6 +79,7 @@ app.post('/api/update/', async function (req, res) {
 			assert.equal(null, err);
 			assert.equal(1, r.matchedCount);
 			assert.equal(1, r.modifiedCount);
+			res.send("Document Updated Successfully..");
 		})
 		console.log("Documents Updated..")
 	} catch (error) {
@@ -100,6 +101,7 @@ app.post('/api/delete/', async function (req, res) {
 			assert.equal(null, err);
 			assert.equal(1, r.deletedCount);
 			console.log("Deleted document succesfully..")
+			res.send("Document Deleted Successfully..");
 		})
 	} catch (error) {
 		console.error(`Failed to evaluate transaction: ${error}`);
@@ -120,6 +122,7 @@ app.post('/api/deleteAll/', async function (req, res) {
 			assert.equal(null, err);
 			assert.equal(2, r.deletedCount);
 			client.close();
+			res.send("Documents Deleted Successfully..");
 		})
 	} catch (error) {
 		console.error(`Failed to evaluate transaction: ${error}`);
