@@ -38,8 +38,54 @@ db.products.find({"item":"pen"}) //returns all "item" named "pen"
 ```
 db.products.findOne({"item":"card","qty":"15"}) // returns first card item with a qty of 15
 ```
-5. updateOne():
-6. updateMany()
-7. deleteOne()
-8. deleteMany()
+6. updateOne(): Modifies an existing document or documents in a collection. The method can modify specific fields of an existing document or documents or replace an existing document entirely, depending on the update parameter.
+```
+db.products.update(query, update, options) // SYNTAX
+
+db.products.update(
+   { qty: { $lte: 10 } }, 
+   { $set: { reorder: true } },
+   { multi: true } 
+)
+
+//finds document quantity(qty) is lessthan or equal($lte) to 10
+ // updates reorder element with true if reorder field is not found, it will add field with a value specified
+ //updates multiple documents
+
+```
+7. updateMany(): updates multiple documents with matching query
+```
+db.products.updateMany(
+      { qty: { $gt: 4 } }, 
+      { $set: { "Review" : true } }
+   );
+   
+ //$gt: greater than
+```
+8. updateOne(): finds the first document that matches the filter and applies the specified update modifications.\
+```
+db.products.update(
+   { qty: { $lte: 10 } }, 
+   { $set: { reorder: true } })
+```
+9. deleteOne(): delete first matching document of query filter
+
+```
+db.products.deleteOne( { "_id" : ObjectId("563237a41a4d68582c2509da") } );
+```
+
+10. deleteMany(): deletes all the documents matching query
+
+```
+db.products.deleteMany( { "item" : "pen", "qty" : { $lte :1 } } );
+
+// delete all the pens where qty is less than or equal to 1
+
+```
+11.explain() : returns query panner info all methods
+
+```
+db.products.explain().find({"item":"pen","qty":"4"})
+```
+
 
