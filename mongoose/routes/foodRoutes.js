@@ -38,7 +38,7 @@ app.post('/delete', async (req, res) => {
 app.post('/update/', async (req, res) => {
   try {
       console.log("Calling Update")
-    await foodModel.findByIdAndUpdate(req.body.id, req.body)
+    await foodModel.findByIdAndUpdate(req.body.id, req.body,{findAndModify:false})
     await foodModel.save()
     res.send("Updated food Data Successfully..")
   } catch (err) {
