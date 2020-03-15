@@ -7,8 +7,11 @@ const app = express();
 app.use(bodyParser.json());
 //app.use(express.json()); Make sure it comes back as json
 
-mongoose.connect('mongodb+srv://UserName:<password>@cluster0-8vkls.mongodb.net/test?retryWrites=true&w=majority', {
-  useNewUrlParser: true
+mongoose.connect('<mongodb url>', { useUnifiedTopology: true, useNewUrlParser: true },);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("we're connected!")
 });
 
 app.use(foodRouter);
