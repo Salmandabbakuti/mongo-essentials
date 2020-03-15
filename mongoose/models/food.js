@@ -1,16 +1,20 @@
-const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const foodRouter = require('./routes/foodRoutes.js');
 
-const app = express();
-app.use(bodyParser.json());
-//app.use(express.json()); Make sure it comes back as json
-
-mongoose.connect('mongodb+srv://UserName:<password>@cluster0-8vkls.mongodb.net/test?retryWrites=true&w=majority', {
-  useNewUrlParser: true
+const FoodSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true
+  },
+  calories: {
+    type: Number,
+    default: 0,
+    validate(value) { 
+      if (value < 0) throw new Error("Negative calories aren't real.");
+    }
+  },
 });
 
-app.use(foodRouter);
-
-app.listen(3000, () => { console.log('Server is running at 3000..') });
+const Food = mongoose.model("Food", FoodSchema);
+module.exports = Food;
