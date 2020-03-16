@@ -20,9 +20,7 @@ var Product = mongoose.model('products',productSchema );
 app.get('/api/read/', async function (req, res) {
     
 try{
-let query = {}
-query.name = req.query.name;
-Product.find(query, function (error, documents) { // if no query passed, it will return all docs in collection
+Product.find(req.query, function (error, documents) { // if no query passed, it will return all docs in collection
   console.log(documents);
   res.send(documents)
   });
@@ -45,7 +43,7 @@ app.put('/api/update/', async function (req, res) {
     
 try{
 let query = {}
-query.name = req.query.name
+query.name = req.body.name
 let isExists = await Product.updateOne(query, req.body,{findAndModify:false})
 if (!isExists) res.status(404).send("No item found")
 await Product.save()
@@ -58,9 +56,7 @@ res.send("Document Updated..")
 app.delete('/api/delete/', async function (req, res) {
     
 try{
-
 let isExists = await Product.deleteOne(req.body)
-
 if (!isExists) res.status(404).send("No item found")
     res.status(200).send("Deleted food Data Successfully.")
 }catch (err) {
