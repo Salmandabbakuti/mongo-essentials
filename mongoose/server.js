@@ -67,4 +67,30 @@ res.status(200).send("Deleted Document Successfully.")
     res.status(500).send(err)
   }    
 })
+app.put('/api/updateAll/', async function (req, res) {
+    
+try{
+let isExists = await Product.updateMany(req.body)
+if (!isExists.n==1) {
+  res.status(404).send("No items found") //n value will be 1 if item found and updated
+  return
+}
+res.status(200).send("Updated Documents Successfully.")
+}catch (err) {
+    res.status(500).send(err)
+  }    
+})
+app.delete('/api/deleteAll/', async function (req, res) {
+    
+try{
+let isExists = await Product.deleteMany(req.body)
+if (!isExists.n==1) {
+  res.status(404).send("No items found") //n value will be 1 if item found and updated
+  return
+}
+res.status(200).send("Deleted Documents Successfully.")
+}catch (err) {
+    res.status(500).send(err)
+  }    
+})
 app.listen(3000, () => { console.log('Server is running at 3000..') });
