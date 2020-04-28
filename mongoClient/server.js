@@ -39,17 +39,11 @@ app.get('/api/read/', async function (req, res) {
 
 });
 app.get('/api/getHistory/', async function (req, res) {
-	try {
+	   try {
 		console.log("Calling history operation..")
-		const history = await db.command({docHistory:{
-  collection:'products' ,
-  filter:req.query
-  //projection:{name:1,uploadedAt:1}
- }});
- res.send(history)
-		
-		
-	} catch (error) {
+		const history = await db.command({docHistory:{collection:'products', filter:req.query}});
+                res.send(history)	
+	     } catch (error) {
 		console.error(`Failed to evaluate transaction: ${error}`);
 		res.status(500).send({
 			Error: error.message
