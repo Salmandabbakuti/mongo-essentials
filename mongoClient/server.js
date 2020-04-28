@@ -5,27 +5,25 @@ const assert = require('assert');
 const app = express();
 app.use(bodyParser.json());
 // Connection URL
-const url = '<mongodb url>';
+const url = '<provendb url>';
 
 // Database Name
-const dbName = 'test';
+const dbName = 'coodb';
 
 // Create a new MongoClient
 const client = new MongoClient(url, {
 	useUnifiedTopology: true
 });
-
 // Use connect method to connect to the Server
 client.connect(function (err, client) {
 	assert.equal(null, err);
 	console.log("Connected to Database.Ready to Serve..");
-	const db = client.db(dbName);
+	const provendb = client.db();
 })
-
+const db = client.db(dbName);
 app.get('/api/read/', async function (req, res) {
 	try {
 		console.log("Calling Read operation..")
-		const db = client.db(dbName);
 		let query = {}
 		query[req.query.property] = req.query.value
 		db.collection("products").find(query).toArray(function (err, result) {
@@ -40,10 +38,28 @@ app.get('/api/read/', async function (req, res) {
 	}
 
 });
+app.get('/api/getHistory/', async function (req, res) {
+	try {
+		console.log("Calling history operation..")
+		const history = await db.command({docHistory:{
+  collection:'products' ,
+  filter:req.query
+  //projection:{name:1,uploadedAt:1}
+ }});
+ res.send(history)
+		
+		
+	} catch (error) {
+		console.error(`Failed to evaluate transaction: ${error}`);
+		res.status(500).send({
+			Error: error.message
+		});
+	}
+
+});
 app.post('/api/create/', async function (req, res) {
 	try {
 		console.log("Creating Documents. Please wait..")
-		const db = client.db(dbName);
 		let data = {
 			name: req.body.name,
 			qty: req.body.qty,
@@ -66,7 +82,6 @@ app.post('/api/create/', async function (req, res) {
 app.post('/api/update/', async function (req, res) {
 	try {
 		console.log("Updating Documents. Please wait..")
-		const db = client.db(dbName);
 		let filter = {
 			name: req.body.name
 		}
@@ -93,7 +108,6 @@ app.post('/api/update/', async function (req, res) {
 app.post('/api/delete/', async function (req, res) {
 	try {
 		console.log("Deleting Document. Please wait..")
-		const db = client.db(dbName);
 		let filter = {
 			name: req.body.name
 		}
@@ -114,7 +128,6 @@ app.post('/api/delete/', async function (req, res) {
 app.post('/api/deleteAll/', async function (req, res) {
 	try {
 		console.log("Deleting Document. Please wait..")
-		const db = client.db(dbName);
 		let filter = {
 			name: req.body.name
 		}
@@ -135,7 +148,6 @@ app.post('/api/deleteAll/', async function (req, res) {
 app.post('/api/updateAll/', async function (req, res) {
 	try {
 		console.log("Updating Documents. Please wait..")
-		const db = client.db(dbName);
 		let filter = {
 			name: req.body.name
 		}
